@@ -159,14 +159,6 @@ installKind() {
 
 
 ################################################  KIND SPECIFIC  ###############################################
-installHelm(){
-    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-    chmod 700 get_helm.sh
-    helmvar=$(./get_helm.sh)
-    logmsg "INFO" "${helmvar}"
-    command -v helm >/dev/null 2>&1 || { echo >&2 "helm is required but it's not installed. Please Install it first and re-run this script."; exit 1; }
-    logmsg "INFO" "${NC} Helm Installed!"
-}
 
 createK8sCluster(){
     kind create cluster --config=./files/kind-config.yaml
@@ -189,8 +181,10 @@ deleteK8sCluster(){
 }
 
 deployBox(){
-    kubectl create ns $1
-    kubectl $2 -n $1 -f box/$1/manifests/*
+    for f in box/$1/manifests/*.yml; do
+        kubectl create ns $1
+        kubectl $2 -n $1 -f $f
+    done
 }
 
 
@@ -203,14 +197,11 @@ case "$1" in
     help)
         echo "installKind - To install Kind binaries";
         echo "createCluster - To create Kind Cluster based on the configuration in files/kind-config.yaml"
-        echo "deleteClister - To delete all the Kind Clusters"
+        echo "deleteCluster - To delete all the Kind Clusters"
         echo "box - to deploy your box application present on box/*"
         echo "  usage:"
         echo "    ./sandbox.sh box e2e-app apply #Deploy the e2e-app application"
         echo "    ./sandbox.sh box e2e-app delete #Delete the e2e-app deployment"
-    ;;
-    installHelm)
-        installHelm
     ;;
     installKind)
         installKind
