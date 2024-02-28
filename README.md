@@ -8,48 +8,48 @@ With this, a Dev is able to start using Kubernetes, and to test localy their own
 
 run:
 
-´´´ bash
+```bash
 
 ./sandbox.sh help
 
-´´´
+```
 
 To see all the available commands.
 
 ### Install Kind Binaries (Mac/Linux):
 
-´´´ bash
+```bash
 
 ./sandbox.sh installKind
 
-´´´
+```
 
 
 ### Create Cluster:
 
-´´´ bash 
+```bash
 
 ./sandbox.sh createCluster
 
-´´´
+```
 
 ### Delete Cluster:
 
-´´´ bash
+```bash
 
 ./sandbox.sh deleteCluster
 
-´´´
+```
 
 ### Deploy Application:
 
 Add contents to the box folder. 
 
-´´´ bash
+```bash
 
 ./sandbox.sh box <app_name> <action>
 
-´´´
+```
 
 Where action mean kubectl action like:
 
